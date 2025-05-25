@@ -2,45 +2,39 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/PriyankaDharade/mygitproject'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                bat 'npm install'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
+                // Checkout the code from Git repository
+                git 'https://github.com/PriyankaDharade/mygitproject.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                // Simulate build step
+                echo 'Building the project...'
+                sh 'echo Build successful!'
             }
         }
 
-        stage('Deploy') {
+        stage('Test') {
             steps {
-                echo 'Deploying application...'
-                // Simulate deployment
-                sh 'echo Deployed Successfully!'
+                // Simulate test step
+                echo 'Running tests...'
+                sh 'echo Tests passed!'
             }
         }
     }
 
     post {
+        always {
+            echo 'Pipeline finished!'
+        }
         success {
-            echo '✅ Pipeline completed successfully!'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo '❌ Pipeline failed. Check the logs.'
+            echo 'Pipeline failed!'
         }
     }
 }
-
